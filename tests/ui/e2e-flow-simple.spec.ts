@@ -30,16 +30,28 @@ test('create order with valid data', async ({ page }) => {
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.createOrder(USERNAME, '0612345678', 'Test order creation')
+  await orderCreationPage.submitOrder();
   // verify at least few elements on the order creation page
   await expect(orderCreationPage.okButton).toBeVisible()
 })
+test('verify validation errors during order creation', async ({ page }) => {
+  const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
+  // try to create order with invalid data
+  await orderCreationPage.createOrder('A', '1234', 'Test comment')
+
+  // verify validation errors
+  await expect(orderCreationPage.nameError).toHaveText('The field must contain at least of characters: 2')
+  await expect(orderCreationPage.phoneError).toHaveText('The field must contain at least of characters: 6')
+ // await expect(orderCreationPage.descriptionError).toBeVisible()
+
+})
 test('logout', async ({ page }) => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logoutButton.click()
-
   await expect(loginPage.signInButton).toBeVisible()
  // await expect(orderCreationPage.logoutButton).not.toBeVisible()
 })
+
