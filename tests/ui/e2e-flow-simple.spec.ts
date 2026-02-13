@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
   await loginPage.open()
 })
 
-test('signIn button disabled when incorrect data inserted', async ({ page }) => {
+test('signIn button disabled when incorrect data inserted', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   await loginPage.usernameField.fill(faker.lorem.word(2))
@@ -16,7 +16,7 @@ test('signIn button disabled when incorrect data inserted', async ({ page }) => 
   await expect(loginPage.signInButton).toBeDisabled()
 })
 
-test('login with correct credentials and verify order creation page', async ({ page }) => {
+test('login with correct credentials and verify order creation page', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
@@ -25,33 +25,35 @@ test('login with correct credentials and verify order creation page', async ({ p
   await expect(orderCreationPage.searchOrderInput).toBeVisible()
   await expect(orderCreationPage.trackButton).toBeVisible()
 })
-test('create order with valid data', async ({ page }) => {
+test('create order with valid data', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.createOrder(USERNAME, '0612345678', 'Test order creation')
-  await orderCreationPage.submitOrder();
+  await orderCreationPage.submitOrder()
   // verify at least few elements on the order creation page
   await expect(orderCreationPage.okButton).toBeVisible()
 })
-test('verify validation errors during order creation', async ({ page }) => {
+test('verify validation errors during order creation', async () => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
   // try to create order with invalid data
   await orderCreationPage.createOrder('A', '1234', 'Test comment')
 
   // verify validation errors
-  await expect(orderCreationPage.nameError).toHaveText('The field must contain at least of characters: 2')
-  await expect(orderCreationPage.phoneError).toHaveText('The field must contain at least of characters: 6')
- // await expect(orderCreationPage.descriptionError).toBeVisible()
-
+  await expect(orderCreationPage.nameError).toHaveText(
+    'The field must contain at least of characters: 2',
+  )
+  await expect(orderCreationPage.phoneError).toHaveText(
+    'The field must contain at least of characters: 6',
+  )
+  // await expect(orderCreationPage.descriptionError).toBeVisible()
 })
-test('logout', async ({ page }) => {
+test('logout', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logoutButton.click()
   await expect(loginPage.signInButton).toBeVisible()
- // await expect(orderCreationPage.logoutButton).not.toBeVisible()
+  // await expect(orderCreationPage.logoutButton).not.toBeVisible()
 })
-

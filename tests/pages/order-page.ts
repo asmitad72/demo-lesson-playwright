@@ -14,7 +14,7 @@ export class OrderPage {
   readonly logoutButton: Locator
   readonly nameError: Locator
   readonly phoneError: Locator
- // readonly descriptionError: Locator
+  // readonly descriptionError: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -31,7 +31,7 @@ export class OrderPage {
     this.logoutButton = page.getByTestId('logout-button')
     this.nameError = page.getByTestId('username-input-error')
     this.phoneError = page.getByTestId('phone-input-error')
-   // this.descriptionError = page.getByTestId('comment-input')
+    // this.descriptionError = page.getByTestId('comment-input')
   }
   async createOrder(username: string, phone: string, comment: string) {
     await this.usernameInput.fill(username)
@@ -41,6 +41,4 @@ export class OrderPage {
   async submitOrder() {
     await this.createOrderButton.click()
   }
-
-
 }
