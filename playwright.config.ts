@@ -21,7 +21,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     testIdAttribute: 'data-name',
     viewport: { width: 1920, height: 1080 },
-    headless:false,
+    headless:true,
   },
 
   /* Configure projects for major browsers */
