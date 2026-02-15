@@ -43,10 +43,13 @@ test('verify validation errors during order creation', async () => {
   await orderCreationPage.createOrder('A', '1234', 'Test comment')
 
   // verify validation errors
-  await expect(orderCreationPage.nameError).toHaveText('The field must contain at least of characters: 2')
-  await expect(orderCreationPage.phoneError).toHaveText('The field must contain at least of characters: 6')
+  await expect(orderCreationPage.nameError).toHaveText(
+    'The field must contain at least of characters: 2',
+  )
+  await expect(orderCreationPage.phoneError).toHaveText(
+    'The field must contain at least of characters: 6',
+  )
   await expect(orderCreationPage.descriptionError).toBeVisible()
-
 })
 test('logout', async () => {
   // const loginPage = new LoginPage(page)
@@ -54,20 +57,19 @@ test('logout', async () => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logoutButton.click()
   await expect(loginPage.signInButton).toBeVisible()
- // await expect(orderCreationPage.logoutButton).not.toBeVisible()
+  // await expect(orderCreationPage.logoutButton).not.toBeVisible()
 })
 test('search for non existing order', async ({ page }) => {
   await loginPage.signIn(USERNAME, PASSWORD)
-  const orderNotFoundPage = new OrderNotFoundPage(page);
-  await orderNotFoundPage.open();
-  await orderNotFoundPage.checkElementVisibility(orderNotFoundPage.container);
+  const orderNotFoundPage = new OrderNotFoundPage(page)
+  await orderNotFoundPage.open()
+  await orderNotFoundPage.checkElementVisibility(orderNotFoundPage.container)
 })
 test('search for existing order', async ({ page }) => {
   await loginPage.signIn(USERNAME, PASSWORD)
-  const orderDetailsPage = new OrderDetailsPage(page);
-  await orderDetailsPage.open();
-  await orderDetailsPage.checkElementVisibility(orderDetailsPage.orderDetails);
-  await expect(orderDetailsPage.logoutButton).toBeVisible();
-  await expect(orderDetailsPage.enLanguageButton).toBeVisible();
+  const orderDetailsPage = new OrderDetailsPage(page)
+  await orderDetailsPage.open()
+  await orderDetailsPage.checkElementVisibility(orderDetailsPage.orderDetails)
+  await expect(orderDetailsPage.logoutButton).toBeVisible()
+  await expect(orderDetailsPage.enLanguageButton).toBeVisible()
 })
-

@@ -3,7 +3,7 @@ import { OrderPage } from './order-page'
 import { SERVICE_URL } from '../../config/env-data'
 import { BasePage } from './base-page'
 
-export class LoginPage extends BasePage{
+export class LoginPage extends BasePage {
   readonly url: string = SERVICE_URL
   readonly signInButton: Locator
   readonly usernameField: Locator
@@ -26,8 +26,8 @@ export class LoginPage extends BasePage{
     await this.usernameField.fill(username)
     await this.passwordField.fill(password)
     await this.signInButton.click()
-    const orderPage = new OrderPage(this.page);
-    await expect(orderPage.createOrderButton).toBeVisible();
+    const orderPage = new OrderPage(this.page)
+    await expect(orderPage.createOrderButton).toBeVisible()
     return orderPage
   }
 
