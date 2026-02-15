@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   await loginPage.open()
 })
 
-test('signIn button disabled when incorrect data inserted', async ({ page }) => {
+test('signIn button disabled when incorrect data inserted', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   await loginPage.usernameField.fill(faker.lorem.word(2))
@@ -18,7 +18,7 @@ test('signIn button disabled when incorrect data inserted', async ({ page }) => 
   await expect(loginPage.signInButton).toBeDisabled()
 })
 
-test('login with correct credentials and verify order creation page', async ({ page }) => {
+test('login with correct credentials and verify order creation page', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
@@ -27,15 +27,16 @@ test('login with correct credentials and verify order creation page', async ({ p
   await expect(orderCreationPage.searchOrderInput).toBeVisible()
   await expect(orderCreationPage.trackButton).toBeVisible()
 })
-test('create order with valid data', async ({ page }) => {
+test('create order with valid data', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.createOrder(USERNAME, '0612345678', 'Test order creation')
+  await orderCreationPage.submitOrder()
   // verify at least few elements on the order creation page
   await expect(orderCreationPage.okButton).toBeVisible()
 })
-test('verify validation errors during order creation', async ({ page }) => {
+test('verify validation errors during order creation', async () => {
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
 
   // try to create order with invalid data
@@ -47,25 +48,20 @@ test('verify validation errors during order creation', async ({ page }) => {
   await expect(orderCreationPage.descriptionError).toBeVisible()
 
 })
-test('logout', async ({ page }) => {
+test('logout', async () => {
   // const loginPage = new LoginPage(page)
   // await loginPage.open()
   const orderCreationPage = await loginPage.signIn(USERNAME, PASSWORD)
   await orderCreationPage.logoutButton.click()
-
   await expect(loginPage.signInButton).toBeVisible()
  // await expect(orderCreationPage.logoutButton).not.toBeVisible()
 })
-
-
 test('search for non existing order', async ({ page }) => {
   await loginPage.signIn(USERNAME, PASSWORD)
   const orderNotFoundPage = new OrderNotFoundPage(page);
   await orderNotFoundPage.open();
   await orderNotFoundPage.checkElementVisibility(orderNotFoundPage.container);
 })
-
-
 test('search for existing order', async ({ page }) => {
   await loginPage.signIn(USERNAME, PASSWORD)
   const orderDetailsPage = new OrderDetailsPage(page);

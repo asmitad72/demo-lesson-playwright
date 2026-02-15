@@ -23,7 +23,7 @@ export default defineConfig({
     screenshot: 'on-first-failure',
     testIdAttribute: 'data-name',
     viewport: { width: 1920, height: 1080 },
-    //headless:false,
+    headless:true,
     baseURL:SERVICE_URL,
   },
 

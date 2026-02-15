@@ -29,8 +29,8 @@ export class OrderPage extends AuthorisedPage{
     this.trackButton = page.getByTestId('searchOrder-submitButton')
     this.okButton = page.getByTestId('orderSuccessfullyCreated-popup-ok-button')
     this.logoutButton = page.getByTestId('logout-button')
-    this.nameError = page.getByTestId('username-input')
-    this.phoneError = page.getByTestId('phone-input')
+    this.nameError = page.getByTestId('username-input-error')
+    this.phoneError = page.getByTestId('phone-input-error')
     this.descriptionError = page.getByTestId('comment-input')
   }
   async createOrder(username: string, phone: string, comment: string) {
@@ -38,6 +38,9 @@ export class OrderPage extends AuthorisedPage{
     await this.phoneInput.fill(phone)
     await this.commentInput.fill(comment)
   //  await this.createOrderButton.click()
+  }
+  async submitOrder() {
+    await this.createOrderButton.click()
   }
 
 }
