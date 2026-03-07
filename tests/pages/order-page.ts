@@ -12,6 +12,9 @@ export class OrderPage {
   readonly trackButton: Locator
   readonly okButton: Locator
   readonly logoutButton: Locator
+  readonly nameError: Locator
+  readonly phoneError: Locator
+  // readonly descriptionError: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -26,12 +29,16 @@ export class OrderPage {
     this.trackButton = page.getByTestId('searchOrder-submitButton')
     this.okButton = page.getByTestId('orderSuccessfullyCreated-popup-ok-button')
     this.logoutButton = page.getByTestId('logout-button')
+    this.nameError = page.getByTestId('username-input-error')
+    this.phoneError = page.getByTestId('phone-input-error')
+    // this.descriptionError = page.getByTestId('comment-input')
   }
   async createOrder(username: string, phone: string, comment: string) {
     await this.usernameInput.fill(username)
     await this.phoneInput.fill(phone)
     await this.commentInput.fill(comment)
+  }
+  async submitOrder() {
     await this.createOrderButton.click()
   }
-
 }
