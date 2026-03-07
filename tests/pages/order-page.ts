@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test'
+import { AuthorisedPage } from './authorised-page'
 
-export class OrderPage {
-  readonly page: Page
+export class OrderPage extends AuthorisedPage {
   readonly statusButton: Locator
   readonly createOrderTitle: Locator
   readonly usernameInput: Locator
@@ -14,10 +14,10 @@ export class OrderPage {
   readonly logoutButton: Locator
   readonly nameError: Locator
   readonly phoneError: Locator
-  // readonly descriptionError: Locator
+  readonly descriptionError: Locator
 
   constructor(page: Page) {
-    this.page = page
+    super(page)
     this.statusButton = page.getByTestId('openStatusPopup-button')
     this.createOrderTitle = page.getByRole('heading', { name: 'Create order' })
     //
@@ -31,12 +31,13 @@ export class OrderPage {
     this.logoutButton = page.getByTestId('logout-button')
     this.nameError = page.getByTestId('username-input-error')
     this.phoneError = page.getByTestId('phone-input-error')
-    // this.descriptionError = page.getByTestId('comment-input')
+    this.descriptionError = page.getByTestId('comment-input')
   }
   async createOrder(username: string, phone: string, comment: string) {
     await this.usernameInput.fill(username)
     await this.phoneInput.fill(phone)
     await this.commentInput.fill(comment)
+    //  await this.createOrderButton.click()
   }
   async submitOrder() {
     await this.createOrderButton.click()

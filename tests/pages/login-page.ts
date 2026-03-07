@@ -1,9 +1,9 @@
-import { Locator, Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 import { OrderPage } from './order-page'
 import { SERVICE_URL } from '../../config/env-data'
+import { BasePage } from './base-page'
 
-export class LoginPage {
-  readonly page: Page
+export class LoginPage extends BasePage {
   readonly url: string = SERVICE_URL
   readonly signInButton: Locator
   readonly usernameField: Locator
@@ -11,7 +11,7 @@ export class LoginPage {
   // add more locators here
 
   constructor(page: Page) {
-    this.page = page
+    super(page)
     this.signInButton = page.getByTestId('signIn-button')
     this.usernameField = page.getByTestId('username-input')
     this.passwordField = page.getByTestId('password-input')
@@ -26,7 +26,9 @@ export class LoginPage {
     await this.usernameField.fill(username)
     await this.passwordField.fill(password)
     await this.signInButton.click()
-    return new OrderPage(this.page)
+    const orderPage = new OrderPage(this.page)
+    await expect(orderPage.createOrderButton).toBeVisible()
+    return orderPage
   }
 
   // continue with the rest of the implementation below

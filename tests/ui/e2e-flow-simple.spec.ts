@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../pages/login-page'
 import { faker } from '@faker-js/faker/locale/ar'
 import { PASSWORD, USERNAME } from '../../config/env-data'
+import { OrderNotFoundPage } from '../pages/order-not-found-page'
+import { OrderDetailsPage } from '../pages/order-details-page'
 let loginPage: LoginPage
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page)
@@ -47,7 +49,7 @@ test('verify validation errors during order creation', async () => {
   await expect(orderCreationPage.phoneError).toHaveText(
     'The field must contain at least of characters: 6',
   )
-  // await expect(orderCreationPage.descriptionError).toBeVisible()
+  await expect(orderCreationPage.descriptionError).toBeVisible()
 })
 test('logout', async () => {
   // const loginPage = new LoginPage(page)
@@ -56,4 +58,18 @@ test('logout', async () => {
   await orderCreationPage.logoutButton.click()
   await expect(loginPage.signInButton).toBeVisible()
   // await expect(orderCreationPage.logoutButton).not.toBeVisible()
+})
+test('search for non existing order', async ({ page }) => {
+  await loginPage.signIn(USERNAME, PASSWORD)
+  const orderNotFoundPage = new OrderNotFoundPage(page)
+  await orderNotFoundPage.open()
+  await orderNotFoundPage.checkElementVisibility(orderNotFoundPage.container)
+})
+test('search for existing order', async ({ page }) => {
+  await loginPage.signIn(USERNAME, PASSWORD)
+  const orderDetailsPage = new OrderDetailsPage(page)
+  await orderDetailsPage.open()
+  await orderDetailsPage.checkElementVisibility(orderDetailsPage.orderDetails)
+  await expect(orderDetailsPage.logoutButton).toBeVisible()
+  await expect(orderDetailsPage.enLanguageButton).toBeVisible()
 })

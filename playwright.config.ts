@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { SERVICE_URL } from './config/env-data'
 
 export default defineConfig({
   testDir: './tests',
@@ -18,10 +19,12 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
+    screenshot: 'on-first-failure',
     testIdAttribute: 'data-name',
     viewport: { width: 1920, height: 1080 },
     headless:true,
+    baseURL:SERVICE_URL,
   },
 
   /* Configure projects for major browsers */
